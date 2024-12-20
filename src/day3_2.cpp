@@ -76,9 +76,12 @@ int getMulCommandSum(std::string corrLine)
     bool enabled = true;
     int sum;
     int firstIndex = 0;
+    int dontIndex = 0;
+    int doIndex = 0;
 
     while(checkLine.size() > 7)
     {
+
         
         firstIndex = checkLine.find("mul(" );
 
@@ -92,7 +95,7 @@ int getMulCommandSum(std::string corrLine)
             if(checkLine.at(firstIndex + i) == ')')
             {
                 funCall = checkLine.substr(firstIndex, i + 1); //this is func call
-               
+            
                 std::cout << "FUNC CALL:" << funCall << std::endl;
                 
                 if(convertandCallFunc(&funCall) != -1)
@@ -125,7 +128,28 @@ int getMulCommandSum(std::string corrLine)
             
 
         }
+        
+        
+        
+        dontIndex = checkLine.find("don't()");
+        if (dontIndex != -1)
+        {
+            doIndex = checkLine.find("do()");
+            if (doIndex != -1)
+            {
+                checkLine = checkLine.substr(0, dontIndex) + checkLine.substr(doIndex + 4); // Adjust to skip "do()"
+                enabled = true;
+            }
+            else
+            {
+                break;
+            }
+        }
        
+            
+
+    
+
 
     }
 
